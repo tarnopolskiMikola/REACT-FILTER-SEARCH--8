@@ -24,7 +24,7 @@ const [buttonNextDisabled, setButtonNextDisabled] = useState('page-item');
 const [buttonPreviousDisabled, setButtonPreviousDisabled] = useState('page-item');
 const [currentPageActiv, setcurrentPageActiv] = useState('page-item');
 const [searchText, setSearchText] = useState('');
-const limitCountPage = 32;
+const limitCountPage = 50;
 
 
 const getFiltredData = () => {
@@ -38,6 +38,7 @@ const getFiltredData = () => {
   )
 }
 const filteredData = getFiltredData()
+console.log(filteredData)
 
 const lastBlockRow = currentPage*limitCountPage
 const firstBlockRow =  lastBlockRow - limitCountPage
@@ -65,9 +66,11 @@ useEffect(()=>{
   }
   setTotalCountRow(filteredData.length)
   const  getTotalCountPage = totalCountRow/limitCountPage;
-  setTotalCountPage(getTotalCountPage)
+   
+  setTotalCountPage(Math.ceil(getTotalCountPage))
   // console.log(totalCountRow + " ---- dlina dla plaginator Row")
   // console.log( getTotalCountPage + " ---- dlina dla plaginator Page")
+  // console.log( Math.ceil(getTotalCountPage)  + " ---- dlina dla plaginator Page")
   currentPagef()
   
 },[isLoaded, setTotalCountRow, filteredData.length, totalCountRow ])
