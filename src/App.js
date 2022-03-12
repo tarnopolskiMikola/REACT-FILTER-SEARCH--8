@@ -34,6 +34,8 @@ const getFiltredData = () => {
   return contactData.filter(
   el=>{
  return el['firstName'].toLowerCase().includes(searchText)
+ || el['lastName'].toLowerCase().includes(searchText)
+ || el['phone'].toLowerCase().includes(searchText)
     }
   )
 }
