@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import ArrowUp from '../svg/ArrowUp'
 import ArrowDown from '../svg/ArrowDown'
-
-const Table = ({sortData, contactData, directionSort, detailRow ,firstBlockRow}) => {
+import SearchElement from '../search/searchElement'
+const Table = ({sortData, contactData, directionSort, detailRow ,firstBlockRow,onSearchSend}) => {
   
   const [fieldData, setFieldData] = useState('');
 
@@ -17,9 +17,12 @@ const Table = ({sortData, contactData, directionSort, detailRow ,firstBlockRow})
    setFieldData(field)
     
  }
+ 
+ 
 
     return (
-
+      <>
+<SearchElement onSearchSend={onSearchSend} />
         <div className="table">
         <thead>
           <tr>
@@ -55,6 +58,7 @@ const Table = ({sortData, contactData, directionSort, detailRow ,firstBlockRow})
            
         </tbody>
       </div>
+      </>
     )
 }
 

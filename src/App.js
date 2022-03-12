@@ -19,24 +19,38 @@ const [totalCountRow, setTotalCountRow] = useState();
 const [totalCountPage, setTotalCountPage] = useState();
 const [rowIsClick, setrowIsClick] = useState(false);
 const [{contactData, setContactDate, isLoaded},  getData ] = useServerData({url, isButtonClick});
-const [currentPage, setCurrentPage]  = useState(1);
+const [currentPage, setCurrentPage]  = useState();
 const [buttonNextDisabled, setButtonNextDisabled] = useState('page-item');
 const [buttonPreviousDisabled, setButtonPreviousDisabled] = useState('page-item');
 const [currentPageActiv, setcurrentPageActiv] = useState('page-item');
+const [searchText, setSearchText] = useState('');
 const limitCountPage = 32;
 
 
-const buttonHandler = (url) => {
-  setUrl(url)
-  setIsButtonClick(true)
-   console.log(url)
+const getFiltredData = () => {
+  if(!searchText){
+    return contactData
+  }
+  return contactData.filter(
+  el=>{
+ return el['firstName'].toLowerCase().includes(searchText)
+    }
+  )
 }
+const filteredData = getFiltredData()
 
 const lastBlockRow = currentPage*limitCountPage
 const firstBlockRow =  lastBlockRow - limitCountPage
-const currentBlockRows = contactData.slice(firstBlockRow,lastBlockRow)
+const currentBlockRows = filteredData.slice(firstBlockRow,lastBlockRow)
+
  
 
+ 
+const buttonHandler = (url) => {
+  setUrl(url)
+  setIsButtonClick(true)
+  //  console.log(url)
+}
 
 const currentPagef = (pag) =>{
   setCurrentPage(pag);
@@ -49,26 +63,28 @@ useEffect(()=>{
   if(!isLoaded){
     return
   }
-  setTotalCountRow(contactData.length)
+  setTotalCountRow(filteredData.length)
   const  getTotalCountPage = totalCountRow/limitCountPage;
   setTotalCountPage(getTotalCountPage)
-  console.log(totalCountRow + " ---- dlina dla plaginator Row")
-  console.log( getTotalCountPage + " ---- dlina dla plaginator Page")
+  // console.log(totalCountRow + " ---- dlina dla plaginator Row")
+  // console.log( getTotalCountPage + " ---- dlina dla plaginator Page")
   currentPagef()
   
-},[isLoaded, setTotalCountRow, contactData.length, totalCountRow ])
-console.log(currentPage+'------------ currentPage------------')
+},[isLoaded, setTotalCountRow, filteredData.length, totalCountRow ])
+// console.log(currentPage+'------------ currentPage------------')
 
 
 let pages = []
 for(let i=1; i<= totalCountPage; i++){
   pages.push(i)
 }
-console.log(pages )
+// console.log(pages )
  
 
-
-
+const onSearchSend = (text) =>{
+  console.log(text);
+  setSearchText(text)
+}
 
 
 
@@ -143,6 +159,7 @@ let i = -1;
        detailRow={detailRow}
       i={i}
       firstBlockRow={firstBlockRow}
+      onSearchSend={onSearchSend}
        />
    
        
